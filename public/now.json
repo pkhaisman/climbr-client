@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "alias": "[pkhaisman]-climbr-app",
+    "name": "climbr-app",
+    "routes": [
+        {
+          "src": "^/static/(.*)",
+          "dest": "/static/$1"
+        },
+        {
+          "src": ".*",
+          "dest": "/index.html"
+        }
+    ]
+  }
