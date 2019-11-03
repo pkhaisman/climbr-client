@@ -54,19 +54,6 @@ class App extends React.Component {
     }
 
     handleMockUserLogin = (user) => {
-        // let userId
-        // let otherUserId
-
-        // if (user.id === 0) {
-        //     userId = '0'
-        //     otherUserId = '1'
-        // } else {
-        //     userId = '1'
-        //     otherUserId = '0'
-        // }
-
-        // window.location.href = `/chat?userId=${userId}&otherUserId=${otherUserId}`;
-
         this.setState({
             currentUser: {
                 ...user

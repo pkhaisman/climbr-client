@@ -33,6 +33,8 @@ class Matches extends React.Component {
     render() {
         return (
             <div className='Matches'>
+                <button onClick={(e) => this.context.handleMockUserLogin(this.context.users[0])}>Phil</button>
+                <button onClick={(e) => this.context.handleMockUserLogin(this.context.users[1])}>Mike</button>
                 {this.renderMatches()}
             </div>
         )

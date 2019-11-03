@@ -1,34 +1,65 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import AuthApiService from '../../services/auth-api-service'
 
-class  SignupForm extends Component {
+class SignUpForm extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
-            username: "",
+            username: '',
+            password: '',
         }
     }
 
-    handleChange = (e) => {
-        this.setState({username: e.target.value});
+    hanldeUpdateUsername = (username) => { this.setState({ username })}
+
+    handleUpdatePassword = (password) => { this.setState({ password })}
+
+    onRegistrationSuccess = () => {
+        this.props.history.push('/swipe')
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = e => {
         e.preventDefault()
-        this.props.onSubmit(this.state.username);
+        const { username, password } = e.target
+
+        this.setState({
+            username: '',
+            password: ''
+        })
+
+        AuthApiService.postUser({
+            username: username.value,
+            password: password.value,
+        })
+            .then((res) => {
+                this.onRegistrationSuccess()
+            })
+            .catch(() => {
+                console.log('error')
+            })
     }
 
     render() {
-        return(
-            <div className="SignupForm">
-                <h1>Let's Talk</h1>
-                <form onSubmit={this.handleSubmit} className="SignupForm__form">
-                    <label htmlFor="email">What is your email?</label>
-                    <input type="email" name="username" onChange={this.handleChange} className="SignupForm__input" />
-                    <button className="SignupForm__submit">Submit</button>
-                </form>
-            </div>
-        )
+        return (
+            <form className='SignUpForm' onSubmit={this.handleSubmit}>
+                <h2 className='SignUpForm__title'>Sign Up</h2>
+                <div className='SignUpForm__user-inputs'>
+                    <div>
+                        <label htmlFor='username'>Username</label>
+                        <input className='SignUpForm__user-input' type='text' name='username' id='username' onChange={(e) => this.hanldeUpdateUsername(e.target.value)} />
+                    </div>
+                    <div>
+                        <label htmlFor='password'>Password</label>
+                        <input className='SignUpForm__user-input' type='password' name='password' id='password' onChange={(e) => this.handleUpdatePassword(e.target.value)} />
+                    </div>
+                </div>
+                <div className='SignUpForm__buttons'>
+                    <button className='SignUpForm__buttons__signup' type='submit'>Sign Up</button>
+                </div>
+            </form>
+        );
     }
 }
 
-export default SignupForm;
+export default withRouter(SignUpForm);
