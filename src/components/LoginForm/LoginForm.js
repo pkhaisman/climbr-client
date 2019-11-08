@@ -2,30 +2,36 @@ import React from 'react'
 import { withRouter } from 'react-router-dom' 
 import TokenService from '../../services/token-service'
 import AuthApiService from '../../services/auth-api-service'
+import ApiService from '../../services/api-service'
 
 class LoginForm extends React.Component {
     onLoginSuccess = () => {
-        console.log('this.onLoginSuccess')
-        this.props.history.push('/swipe')
+        this.props.history.push('/profile')
+        this.props.updateUserLoggedIn(true)
     }
 
     handleSubmitJwtAuth = (e) =>{
         e.preventDefault()
         const { username, password } = e.target
 
-        AuthApiService.postLogin({
-            username: username.value,
-            password: password.value
-        })
-            .then(res => {
-                // username.value = '',
-                // password.value = '',
-                TokenService.saveAuthToken(res.authToken)
-                this.onLoginSuccess()
+        ApiService.getUser(username.value)
+            .then(dbUser => {
+                AuthApiService.postLogin({
+                    username: username.value,
+                    password: password.value
+                })
+                    .then(res => {
+                        // username.value = '',
+                        // password.value = '',
+                        TokenService.saveAuthToken(res.authToken)
+                        TokenService.saveUserId(dbUser.user.id)
+                        this.onLoginSuccess()
+                    })
+                    .catch(res => {
+                        console.log(res.error)
+                    })
             })
-            .catch(res => {
-                console.log(res.error)
-            })
+
     }
 
     render() {

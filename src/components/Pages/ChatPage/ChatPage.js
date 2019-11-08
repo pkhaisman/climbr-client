@@ -9,7 +9,7 @@ class ChatPage extends React.Component {
     render() {
         return (
             <div className='ChatPage'>
-                <NavBar />
+                <NavBar updateUserLoggedIn={this.props.updateUserLoggedIn} />
                 <Chat />
             </div>
         )

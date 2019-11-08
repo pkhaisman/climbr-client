@@ -5,7 +5,6 @@ const TokenService = {
         window.sessionStorage.setItem('userId', userId)
     },
     saveAuthToken(token) {
-        console.log(config)
         window.sessionStorage.setItem(config.TOKEN_KEY, token)
     },
     getAuthToken() {
@@ -13,7 +12,7 @@ const TokenService = {
     },
     clearAuthToken() {
         window.sessionStorage.removeItem(config.TOKEN_KEY)
-        // window.sessionStorage.removeItem('userId')
+        window.sessionStorage.removeItem('userId')
     },
     hasAuthToken() {
         return !!TokenService.getAuthToken()

@@ -5,10 +5,10 @@ import Matches from '../../Matches/Matches'
 
 import './MatchPage.css'
 
-function MatchPage() {
+function MatchPage(props) {
     return (
         <div className='MatchPage'>
-            <NavBar />
+            <NavBar updateUserLoggedIn={props.updateUserLoggedIn} />
             <Matches />
         </div>
     )

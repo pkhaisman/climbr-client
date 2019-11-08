@@ -1,110 +1,34 @@
 import React                        from 'react'
-import { Route, BrowserRouter }     from 'react-router-dom'
-
-import DataHelpers from '../../data/data'
-
-import ClimbrContext from '../../contexts/ClimbrContext'
-
-import ChatPage                     from '../Pages/ChatPage/ChatPage'
-import MatchPage                    from '../Pages/MatchPage/MatchPage'
-import SwipePage                    from '../Pages/SwipePage/SwipePage'
-import LoginPage                    from '../Pages/LoginPage/LoginPage'
-import SignUpPage                   from '../Pages/SignUpPage/SignUpPage'
-import LandingPage                  from '../Pages/LandingPage/LandingPage'
-import ProfilePage                  from '../Pages/ProfilePage/ProfilePage'
+import { BrowserRouter, withRouter }     from 'react-router-dom'
+import PublicRoutes from '../Routes/PublicRoutes/PublicRoutes'
+import PrivateRoutes from '../Routes/PrivateRoutes/PrivateRoutes'
+import TokenService from '../../services/token-service'
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentUser: '',
-            users: []
+            userLoggedIn: TokenService.hasAuthToken()
         }
     }
 
-    componentDidMount() {
-        const users = DataHelpers.generateUsers()
-        const currentUser = users[0]
-
+    updateUserLoggedIn = (boolean) => {
         this.setState({
-            users,
-            currentUser
-        })
-    }
-
-    handleSwipeLeft = (cardsToSwipe) => {
-        this.setState(prevState => ({
-            currentUser: {
-                ...prevState.currentUser,
-                cardsToSwipe
-            }
-        }))
-    }
-
-    handleSwipeRight = (cardsToSwipe, usersLiked, usersMatched, usersClone) => {
-        this.setState(prevState => ({
-            currentUser: {
-                ...prevState.currentUser,
-                cardsToSwipe,
-                usersLiked,
-                usersMatched,
-            },
-            users: usersClone
-        }))
-    }
-
-    handleMockUserLogin = (user) => {
-        this.setState({
-            currentUser: {
-                ...user
-            }
+            userLoggedIn: boolean
         })
     }
 
     render() {
-        const contextValue = {
-            users: this.state.users,
-            currentUser: this.state.currentUser,
-            handleSwipeLeft: this.handleSwipeLeft,
-            handleSwipeRight: this.handleSwipeRight,
-            handleMockUserLogin: this.handleMockUserLogin
-        }
-
-        if (!this.state.users) {
-            return null
-        }
-        
         return (
             <BrowserRouter>
                 <main className='App'>
-                    <ClimbrContext.Provider value={contextValue}>
-                        <Route
-                            path='/'
-                            exact
-                            component={LandingPage} />
-                        <Route
-                            path='/signup'
-                            component={SignUpPage} />
-                        <Route
-                            path='/login'
-                            component={LoginPage} />
-                        <Route
-                            path='/swipe'
-                            component={SwipePage} />
-                        <Route
-                            path='/match'
-                            component={MatchPage} />
-                        <Route
-                            path='/chat'
-                            component={ChatPage} />
-                        <Route
-                            path='/profile'
-                            component={ProfilePage} />
-                    </ClimbrContext.Provider>
+                    {this.state.userLoggedIn
+                        ? <PrivateRoutes updateUserLoggedIn={this.updateUserLoggedIn} />
+                        : <PublicRoutes updateUserLoggedIn={this.updateUserLoggedIn}  />}
                 </main>
             </BrowserRouter>
         )
     }
 }
 
-export default App
+export default withRouter(App)

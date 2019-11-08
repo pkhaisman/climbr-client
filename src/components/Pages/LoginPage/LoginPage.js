@@ -3,11 +3,11 @@ import NavBar from '../../NavBar/NavBar'
 import LoginForm from '../../LoginForm/LoginForm'
 import './LoginPage.css'
 
-function LoginPage() {
+function LoginPage(props) {
     return (
         <div className='LoginPage'>
             <NavBar />
-            <LoginForm />
+            <LoginForm updateUserLoggedIn={props.updateUserLoggedIn} />
         </div>
     )
 }

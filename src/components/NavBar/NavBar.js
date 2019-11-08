@@ -1,19 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import ClimbrContext from '../../contexts/ClimbrContext'
+import { withRouter, Link } from 'react-router-dom'
 import TokenService from '../../services/token-service'
 import './NavBar.css'
 
 class NavBar extends React.Component {
-    static contextType = ClimbrContext
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            isLoggedIn: false
-        }
-    }
-
     renderLoginLink = () => {
         return (
             <li>
@@ -26,10 +16,17 @@ class NavBar extends React.Component {
 
     handleLogoutClick = (e) => {
         TokenService.clearAuthToken()
+        this.props.history.push('/login')
+        this.props.updateUserLoggedIn(false)
     }
 
     renderLogoutLink = () => {
         return (
+            // <li>
+            //     <Link to={'/'} onClick={(e) => this.handleLogoutClick(e)}>
+            //         Log Out
+            //     </Link>
+            // </li>
             <li>
                 <button onClick={(e) => this.handleLogoutClick(e)}>
                     Log Out
@@ -59,4 +56,4 @@ class NavBar extends React.Component {
     }
 }
 
-export default NavBar
+export default withRouter(NavBar)

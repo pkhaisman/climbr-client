@@ -1,6 +1,14 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import { default as Chatkit } from '@pusher/chatkit-server'
+
 import AuthApiService from '../../services/auth-api-service'
+
+const chatkit = new Chatkit({
+    // TODO hide me
+    instanceLocator: 'v1:us1:e1f602bf-683e-4604-8c7e-8f4763d67042',
+    key: '41431f84-0a71-444c-bfc8-ea47104b3a58:lrEgPBJE+qBmimJvjOC4uATPOWEDe3HwtfWssDHS58o=',
+})
 
 class SignUpForm extends React.Component {
     constructor(props) {
@@ -15,8 +23,17 @@ class SignUpForm extends React.Component {
 
     handleUpdatePassword = (password) => { this.setState({ password })}
 
-    onRegistrationSuccess = () => {
-        this.props.history.push('/swipe')
+    onRegistrationSuccess = (user) => {
+        // create user in chatkit
+        chatkit.createUser({
+            id: user.id.toString(),
+            name: user.username,
+        })
+            .catch((err) => {
+                console.log(err)
+            })
+        
+        this.props.history.push('/login')
     }
 
     handleSubmit = e => {
@@ -33,7 +50,7 @@ class SignUpForm extends React.Component {
             password: password.value,
         })
             .then((res) => {
-                this.onRegistrationSuccess()
+                this.onRegistrationSuccess(res)
             })
             .catch(() => {
                 console.log('error')
@@ -58,8 +75,8 @@ class SignUpForm extends React.Component {
                     <button className='SignUpForm__buttons__signup' type='submit'>Sign Up</button>
                 </div>
             </form>
-        );
+        )
     }
 }
 
-export default withRouter(SignUpForm);
+export default withRouter(SignUpForm)

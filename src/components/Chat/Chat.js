@@ -1,5 +1,5 @@
 import React from 'react'
-import { ChatkitProvider, TokenProvider } from '@pusher/chatkit-client-react';
+import { ChatkitProvider, TokenProvider } from '@pusher/chatkit-client-react'
 import ClimbrContext from '../../contexts/ClimbrContext'
 import ChatWindow from '../ChatWindow/ChatWindow'
 

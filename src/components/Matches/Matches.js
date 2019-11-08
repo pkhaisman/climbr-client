@@ -9,12 +9,12 @@ class Matches extends React.Component {
     static contextType = ClimbrContext
 
     renderMatches = () => {
-        return this.context.currentUser.usersMatched
-            ? this.context.currentUser.usersMatched.map(matchId => {
+        return this.context.usersMatched
+            ? this.context.usersMatched.map(u => {
                 const matchName = this.context.users.map(user => {
-                    if (user.id === matchId && this.context.currentUser.id !== matchId) {
+                    if (user.id === u.userMatchedId) {
                         return (
-                            <div className='Match__name' key={matchId}>{user.firstName}</div>
+                            <div className='Match__name' key={u.id}>{user.name}</div>
                         )
                     } else {
                         return null
@@ -22,8 +22,8 @@ class Matches extends React.Component {
                 })
 
                 return (
-                    <div className='Match' key={matchId}>
-                        <Link to={`/chat?otherUserId=${matchId}`}>{matchName}</Link>
+                    <div className='Match' key={u.id}>
+                        <Link to={`/chat?otherUserId=${u.userMatchedId}`}>{matchName}</Link>
                     </div>
                 )
             })
@@ -33,8 +33,6 @@ class Matches extends React.Component {
     render() {
         return (
             <div className='Matches'>
-                {/* <button onClick={(e) => this.context.handleMockUserLogin(this.context.users[0])}>Phil</button> */}
-                {/* <button onClick={(e) => this.context.handleMockUserLogin(this.context.users[1])}>Mike</button> */}
                 {this.renderMatches()}
             </div>
         )
