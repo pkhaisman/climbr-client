@@ -12,7 +12,7 @@ class Matches extends React.Component {
         return this.context.currentUser.usersMatched
             ? this.context.currentUser.usersMatched.map(matchId => {
                 const matchName = this.context.users.map(user => {
-                    if (user.id === matchId) {
+                    if (user.id === matchId && matchId !== this.context.currentUser.id) {
                         return (
                             <div className='Match__name' key={matchId}>{user.firstName}</div>
                         )
