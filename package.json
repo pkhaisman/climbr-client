@@ -5,7 +5,9 @@
   "dependencies": {
     "@pusher/chatkit-client-react": "^0.1.2",
     "@pusher/chatkit-server": "^2.1.1",
+    "enzyme-adapter-react-16": "^1.15.1",
     "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-moment": "^0.9.6",
@@ -37,5 +39,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "enzyme": "^3.10.0",
+    "jest": "^24.9.0"
   }
 }

@@ -22,9 +22,11 @@ class NavBar extends React.Component {
             </nav>
             : <nav className='NavBar'>
                 <ul className='NavBar__list'>
-                    <li><Link to={'/'}>Landing Page</Link></li>
-                    <li><Link to={'/login'}>Log In</Link></li>
-                    <li><Link to={'/signup'}>Sign Up</Link></li>
+                    <li><Link className='Navbar__list__title' to={'/'}><h1>Climbr</h1></Link></li>
+                    <div className='NavBar__list--right'>
+                        <li><Link className='NavBar__list__login' to={'/login'}>Log In</Link></li>
+                        <li><Link className='NavBar__list__signup' to={'/signup'}>Sign Up</Link></li>
+                    </div>
                 </ul>
             </nav>
     }

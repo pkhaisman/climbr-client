@@ -1,10 +1,11 @@
 import React from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import ClimbrContext from '../../../contexts/ClimbrContext'
 import ChatPage from '../../Pages/ChatPage/ChatPage'
 import MatchPage from '../../Pages/MatchPage/MatchPage'
 import SwipePage from '../../Pages/SwipePage/SwipePage'
 import ProfilePage from '../../Pages/ProfilePage/ProfilePage'
+import NotFoundPage from '../../Pages/NotFoundPage/NotFoundPage'
 import ApiService from '../../../services/api-service'
 
 class PrivateRoutes extends React.Component {
@@ -143,7 +144,8 @@ class PrivateRoutes extends React.Component {
         const currentUser = {
             ...this.state.currentUser,
             name: updatedUser.name,
-            bio: updatedUser.bio
+            bio: updatedUser.bio,
+            image: updatedUser.image
         }
 
         this.setState({
@@ -182,22 +184,26 @@ class PrivateRoutes extends React.Component {
         return (
             <div className='PrivateRoutes'>
                 <ClimbrContext.Provider value={contextValue}>
-                    <Route
-                        path='/swipe'
-                        // component={SwipePage}
-                        render={() => <SwipePage updateUserLoggedIn={this.props.updateUserLoggedIn} />} />
-                    <Route
-                        path='/match'
-                        // component={MatchPage}
-                        render={() => <MatchPage updateUserLoggedIn={this.props.updateUserLoggedIn} />} />
-                    <Route
-                        path='/chat'
-                        // component={ChatPage}
-                        render={() => <ChatPage updateUserLoggedIn={this.props.updateUserLoggedIn} />} />
-                    <Route
-                        path='/profile'
-                        // component={ProfilePage}
-                        render={() => <ProfilePage updateUserLoggedIn={this.props.updateUserLoggedIn} />} />
+                    <Switch>
+                        <Route
+                            exact
+                            path='/swipe'
+                            render={() => <SwipePage updateUserLoggedIn={this.props.updateUserLoggedIn} />} />
+                        <Route
+                            exact
+                            path='/match'
+                            render={() => <MatchPage updateUserLoggedIn={this.props.updateUserLoggedIn} />} />
+                        <Route
+                            exact
+                            path='/chat'
+                            render={() => <ChatPage updateUserLoggedIn={this.props.updateUserLoggedIn} />} />
+                        <Route
+                            exact
+                            path='/profile'
+                            render={() => <ProfilePage updateUserLoggedIn={this.props.updateUserLoggedIn} />} />
+                        <Route
+                            component={NotFoundPage} />
+                    </Switch>
                 </ClimbrContext.Provider>
             </div>
         )

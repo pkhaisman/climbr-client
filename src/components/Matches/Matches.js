@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import ClimbrContext from '../../contexts/ClimbrContext'
 
 import './Matches.css'
@@ -37,6 +38,12 @@ class Matches extends React.Component {
             </div>
         )
     }
+}
+
+// needed for component smoke test to pass
+Matches.contextTypes = {
+    users: PropTypes.array,
+    usersMatched: PropTypes.array
 }
 
 export default withRouter(Matches)

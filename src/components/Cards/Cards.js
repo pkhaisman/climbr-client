@@ -1,6 +1,7 @@
 import React from 'react'
 import ClimbrContext from '../../contexts/ClimbrContext'
 import { Card, CardWrapper } from 'react-swipeable-cards'
+import PropTypes from 'prop-types'
 import ApiService from '../../services/api-service'
 import './Cards.css'
 
@@ -11,7 +12,7 @@ class EndCard extends React.Component {
     refreshUsersToSwipe = () => {
         const idsUsers = []
 
-        this.context.users.map(user => {
+        this.context.users.forEach(user => {
             if (user.id !== this.context.currentUser.id) {
                 idsUsers.push(user.id)
             }
@@ -77,6 +78,7 @@ class Cards extends React.Component {
                         onSwipeRight={(u) => this.onSwipeRight(u.userToSwipeId)}>
                             <p>{user.name}</p>
                             <p>{user.bio}</p>
+                            <img src={user.image} alt='Profile pic' height='300px' width='auto' />
                     </Card>
                 )
             })
@@ -95,6 +97,12 @@ class Cards extends React.Component {
             </CardWrapper>
         )
     }
+}
+
+// needed for component smoke test to pass
+Cards.contextTypes = {
+    usersToSwipe: PropTypes.array,
+    users: PropTypes.array,
 }
 
 export default Cards

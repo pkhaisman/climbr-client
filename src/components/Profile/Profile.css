@@ -1,0 +1,68 @@
+.container {
+    width: 100%;
+    height: calc(100vh - 16px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.flex-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Profile {
+    display: inline-block;
+    width: 90vw;
+    max-width: 400px;
+    /* height: 70vh; */
+    background: #fff;
+    border: 1px solid #e7e7e7;
+    border-radius: 8px;
+    overflow: hidden;
+    position: absolute;
+}
+
+.Profile__Form__user-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.Profile__Form__user-input__image {
+    height: 400px;
+}
+
+.Profile__Form__user-inputs__name {
+    border: none;
+    font-size: 2rem;
+    margin: 20px 10px;
+}
+
+.Profile__Form__user-inputs__name:hover {
+    cursor: pointer;
+}
+
+.Profile__Form__user-inputs__name:focus {
+    cursor: text;
+}
+
+.Profile__Form__user-labels__bio {
+    margin-left: 10px;
+}
+
+.Profile__Form__user-inputs__bio {
+    margin: 20px 10px;
+    height: 75px;
+}
+
+.Profile__Form__button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.Profile__Form__submit-button {
+    margin: 10px 0;
+}

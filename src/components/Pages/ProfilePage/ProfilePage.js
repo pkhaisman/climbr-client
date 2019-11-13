@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import NavBar from '../../NavBar/NavBar'
 import Profile from '../../Profile/Profile'
 import ClimbrContext from '../../../contexts/ClimbrContext'
@@ -17,6 +18,11 @@ class ProfilePage extends React.Component {
             </div>
         )
     }
+}
+
+// needed for component smoke test to pass
+ProfilePage.contextTypes = {
+    currentUser: PropTypes.object,
 }
 
 export default ProfilePage

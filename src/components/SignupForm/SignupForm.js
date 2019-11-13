@@ -1,8 +1,8 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { default as Chatkit } from '@pusher/chatkit-server'
-
 import AuthApiService from '../../services/auth-api-service'
+import '../App/App.css'
 
 const chatkit = new Chatkit({
     // TODO hide me
@@ -59,20 +59,20 @@ class SignUpForm extends React.Component {
 
     render() {
         return (
-            <form className='SignUpForm' onSubmit={this.handleSubmit}>
-                <h2 className='SignUpForm__title'>Sign Up</h2>
-                <div className='SignUpForm__user-inputs'>
+            <form className='Form' onSubmit={this.handleSubmit}>
+                <h2 className='Form__title'>Sign Up</h2>
+                <div className='Form__user-inputs'>
                     <div>
-                        <label htmlFor='username'>Username</label>
-                        <input className='SignUpForm__user-input' type='text' name='username' id='username' onChange={(e) => this.hanldeUpdateUsername(e.target.value)} />
+                        <label className='Form__user-inputs__label' htmlFor='username'>Username</label>
+                        <input className='Form__user-inputs__input' type='text' name='username' id='username' onChange={(e) => this.hanldeUpdateUsername(e.target.value)} />
                     </div>
                     <div>
-                        <label htmlFor='password'>Password</label>
-                        <input className='SignUpForm__user-input' type='password' name='password' id='password' onChange={(e) => this.handleUpdatePassword(e.target.value)} />
+                        <label className='Form__user-inputs__label' htmlFor='password'>Password</label>
+                        <input className='Form__user-inputs__input' type='password' name='password' id='password' onChange={(e) => this.handleUpdatePassword(e.target.value)} />
                     </div>
                 </div>
-                <div className='SignUpForm__buttons'>
-                    <button className='SignUpForm__buttons__signup' type='submit'>Sign Up</button>
+                <div className='Form__buttons'>
+                    <button className='Form__buttons__signup' type='submit'>Sign Up</button>
                 </div>
             </form>
         )
