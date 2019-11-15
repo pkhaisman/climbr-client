@@ -1,75 +1,127 @@
 import React from 'react'
 import ClimbrContext from '../../contexts/ClimbrContext'
 import { Card, CardWrapper } from 'react-swipeable-cards'
+import PropTypes from 'prop-types'
+import ApiService from '../../services/api-service'
 import './Cards.css'
+
+class EndCard extends React.Component {
+    static contextType = ClimbrContext
+
+    // TODO REFACTOR
+    refreshUsersToSwipe = () => {
+        const idsUsers = []
+
+        this.context.users.forEach(user => {
+            if (user.id !== this.context.currentUser.id) {
+                idsUsers.push(user.id)
+            }
+        })
+
+        const idsLikedUsers = []
+
+        this.context.usersLiked.forEach(userLiked => {
+            if (this.context.currentUser.id === userLiked.userId) {
+                idsLikedUsers.push(userLiked.userLikedId)
+            }
+        })
+
+        const idsUsersToSwipe = idsUsers.filter(id => !idsLikedUsers.includes(id))
+
+        idsUsersToSwipe.forEach(id => {
+            ApiService.addUserToSwipe(this.context.currentUser.id, id)
+                .then((userToSwipe) => {
+                    // add userToSwipe to state
+                    this.context.addUserToSwipe(userToSwipe)
+                })
+        })
+    }
+
+    render() {
+        return(
+            <div className='EndCard'>
+                <p className='EndCard__text'>You swiped through all the cards! Click to refresh the stack!</p>
+                <button className='EndCard__btn' onClick={() => this.refreshUsersToSwipe()}>Refresh</button>
+            </div>
+        );
+    }
+}
 
 class Cards extends React.Component {
     static contextType = ClimbrContext
 
-    // remove card from cardsToSwipe
-    onSwipeLeft(userSwiped) {
-        const filteredCardsToSwipe = this.context.currentUser.cardsToSwipe
-            .filter(id => id !== userSwiped.id)
+    // remove user from usersToSwipe
+    onSwipeLeft(idUserSwiped) {
+        const filteredUsersToSwipe = this.context.usersToSwipe
+            .filter(user => user.userToSwipeId !== idUserSwiped)
 
-        this.context.handleSwipeLeft(filteredCardsToSwipe)
+        this.context.handleSwipeLeft(filteredUsersToSwipe, idUserSwiped)
     }
 
-    // remove card from cardsToSwipe, add to usersLiked and check if match
-    onSwipeRight(userSwiped) {
-        const { currentUser, currentUser: { usersLiked, usersMatched }, users } = this.context
-
-        const filteredCardsToSwipe = currentUser.cardsToSwipe
-            .filter(id => id !== userSwiped.id)
-
-        const updatedUsersLiked = usersLiked.concat(userSwiped.id)
-
-        let updatedUsersMatched, updatedUsersMatchedSwipedUser, usersClone
-
-        // if usersLiked of userSwiped includes id of currentUser then add respective ids to usersMatched of both users
-        if (userSwiped.usersLiked.includes(currentUser.id)) {
-            console.log('match')
-            // add id of swipedUser to usersMatched of currentUser
-            updatedUsersMatched = usersMatched.concat(userSwiped.id)
-
-            // add id of currentUser to usersMatched of swipedUser
-            updatedUsersMatchedSwipedUser = userSwiped.usersMatched.concat(currentUser.id)
-
-            const updatedSwipedUser = {
-                ...userSwiped,
-                usersMatched: updatedUsersMatchedSwipedUser
-            }
-
-            usersClone = users
-            const indexOfUserToUpdate = usersClone.findIndex(user => user.id === userSwiped.id)
-            usersClone[indexOfUserToUpdate] = updatedSwipedUser
-        }
-
-        this.context.handleSwipeRight(filteredCardsToSwipe, updatedUsersLiked, updatedUsersMatched || usersMatched, usersClone || users)
+    // remove user from usersToSwipe
+    onSwipeRight(idUserSwiped) {
+        const filteredUsersToSwipe = this.context.usersToSwipe
+            .filter(user => user.userToSwipeId !== idUserSwiped)
+        
+        this.context.handleSwipeRight(idUserSwiped, filteredUsersToSwipe)
     }
 
     renderCards = () => {
-        return this.context.users
-            .filter(user => user.id !== this.context.currentUser.id)
+        const cardStyle = {
+            overflow: 'auto',
+            color: 'red',
+            display: 'flex',
+            flexDirection: 'column',
+            transform: 'translateY(-35px)',
+            color: 'black',
+            boxShadow: '0 2px 10px 0 rgba(117,117,117,0.77)'
+        }
+
+        return this.context.usersToSwipe
             .map(u => {
+                const user = this.context.users.find(user => user.id === u.userToSwipeId)
                 return (
                     <Card
+                        style={cardStyle}
                         key={u.id}
                         data={u}
-                        onSwipeLeft={this.onSwipeLeft.bind(this)}
-                        onSwipeRight={this.onSwipeRight.bind(this)}>
-                            {u.firstName}
+                        onSwipeLeft={(u) => this.onSwipeLeft(u.userToSwipeId)}
+                        onSwipeRight={(u) => this.onSwipeRight(u.userToSwipeId)}>
+                            <img className='Card__user-img' src={user.image} alt='Profile pic' />
+                            <p className='Card__name'>{user.name}</p>
+                            <hr style={{
+                                      border: 0,
+                                      clear: 'both',
+                                      display: 'block',
+                                      width: '96%',              
+                                      backgroundColor: '#e8e8e8',
+                                      height: '1px',
+                                }} /> 
+                            <p className='Card__bio'>{user.bio}</p>
                     </Card>
                 )
             })
     }
 
+    getEndCard = () => {
+        return  (
+            <EndCard />
+        )
+    }
+
     render() {
         return (
-            <CardWrapper>
+            <CardWrapper addEndCard={() => this.getEndCard()}>
                 {this.renderCards()}
             </CardWrapper>
         )
     }
+}
+
+// needed for component smoke test to pass
+Cards.contextTypes = {
+    usersToSwipe: PropTypes.array,
+    users: PropTypes.array,
 }
 
 export default Cards

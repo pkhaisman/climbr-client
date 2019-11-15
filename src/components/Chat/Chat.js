@@ -1,5 +1,6 @@
 import React from 'react'
-import { ChatkitProvider, TokenProvider } from '@pusher/chatkit-client-react';
+import { ChatkitProvider, TokenProvider } from '@pusher/chatkit-client-react'
+import PropTypes from 'prop-types'
 import ClimbrContext from '../../contexts/ClimbrContext'
 import ChatWindow from '../ChatWindow/ChatWindow'
 
@@ -32,6 +33,11 @@ class Chat extends React.Component {
             </div>
         )
     }
+}
+
+// needed for component smoke test to pass
+Chat.contextTypes = {
+    currentUser: PropTypes.object,
 }
 
 export default Chat

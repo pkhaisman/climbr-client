@@ -1,7 +1,9 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import ClimbrContext from '../../contexts/ClimbrContext'
+import './Matches.css'
 
 import './Matches.css'
 
@@ -9,12 +11,12 @@ class Matches extends React.Component {
     static contextType = ClimbrContext
 
     renderMatches = () => {
-        return this.context.currentUser.usersMatched
-            ? this.context.currentUser.usersMatched.map(matchId => {
+        return this.context.usersMatched
+            ? this.context.usersMatched.map(u => {
                 const matchName = this.context.users.map(user => {
-                    if (user.id === matchId && matchId !== this.context.currentUser.id) {
+                    if (user.id === u.userMatchedId) {
                         return (
-                            <div className='Match__name' key={matchId}>{user.firstName}</div>
+                            <div className='Match__name' key={u.id}>{user.name}</div>
                         )
                     } else {
                         return null
@@ -22,8 +24,8 @@ class Matches extends React.Component {
                 })
 
                 return (
-                    <div className='Match' key={matchId}>
-                        <Link to={`/chat?otherUserId=${matchId}`}>{matchName}</Link>
+                    <div className='Match' key={u.id}>
+                        <Link className='Match__link' to={`/chat?otherUserId=${u.userMatchedId}`}>{matchName}</Link>
                     </div>
                 )
             })
@@ -37,6 +39,12 @@ class Matches extends React.Component {
             </div>
         )
     }
+}
+
+// needed for component smoke test to pass
+Matches.contextTypes = {
+    users: PropTypes.array,
+    usersMatched: PropTypes.array
 }
 
 export default withRouter(Matches)

@@ -1,12 +1,14 @@
 import Moment from 'react-moment';
 import React, { useState, useEffect } from 'react';
 import { withChatkitOneToOne } from '@pusher/chatkit-client-react';
+import './ChatWindow.css'
 
 // import defaultAvatar from './default-avatar.png';
 
 function ChatWindow(props) {
     const [pendingMessage, setPendingMessage] = useState('');
     const messageList = React.createRef();
+    const messagesEnd = React.createRef();
 
     const handleMessageKeyDown = event => {
         if (event.key === 'Enter') {
@@ -28,7 +30,7 @@ function ChatWindow(props) {
     };
 
     useEffect(() => {
-        messageList.current.scrollTop = messageList.current.scrollHeight;
+        messagesEnd.current.scrollIntoView({ behavior: "smooth" });
     });
 
     const messages = props.chatkit.messages.map(m => ({
@@ -44,11 +46,11 @@ function ChatWindow(props) {
     return (
         <div className="ChatWindow">
             <div className="ChatWindow__titlebar">
-                <img
+                {/* <img
                     // src={defaultAvatar}
                     className="ChatWindow__titlebar__avatar"
                     alt="avatar"
-                />
+                /> */}
                 <div className="ChatWindow__titlebar__details">
                     <span>{props.chatkit.isLoading
                         ? 'Loading...'
@@ -61,6 +63,7 @@ function ChatWindow(props) {
                     <Message key={m.id} {...m} />
                 ))}
             </div>
+            <div ref={messagesEnd}></div>
             <div className="ChatWindow__compose">
                 <input
                     className="ChatWindow__compose__input"
@@ -70,7 +73,7 @@ function ChatWindow(props) {
                     onChange={handleMessageChange}
                     onKeyDown={handleMessageKeyDown}
                 />
-                <button className="ChatWindow__compose__button" onClick={handleSendMessage}>
+                <button className="ChatWindow__compose__button ChatWindow__compose__button--chat" onClick={handleSendMessage}>
                     Send
                 </button>
             </div>
@@ -88,6 +91,17 @@ function Message({ isOwnMessage, isLatestMessage, createdAt, textContent }) {
             }
         >
             <div className="ChatWindow__messages__message__wrapper__inner">
+                <div className="ChatWindow__messages__message__time">
+                    <Moment
+                        calendar={{
+                            sameDay: 'LT',
+                            lastDay: '[Yesterday at] LT',
+                            lastWeek: '[last] dddd [at] LT',
+                        }}
+                    >
+                        {createdAt}
+                    </Moment>
+                </div>
                 <div
                     className={
                         isOwnMessage
@@ -96,17 +110,6 @@ function Message({ isOwnMessage, isLatestMessage, createdAt, textContent }) {
                     }
                 >
                     <div className="ChatWindow__messages__message__content">{textContent}</div>
-                    <div className="ChatWindow__messages__message__time">
-                        <Moment
-                            calendar={{
-                                sameDay: 'LT',
-                                lastDay: '[Yesterday at] LT',
-                                lastWeek: '[last] dddd [at] LT',
-                            }}
-                        >
-                            {createdAt}
-                        </Moment>
-                    </div>
                     <div
                         className={
                         isOwnMessage
