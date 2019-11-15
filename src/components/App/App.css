@@ -27,7 +27,7 @@
     justify-content: space-between;
 }
 
-.Form__buttons__login, .Form__buttons__signup {
+.Form__buttons__login, .Form__buttons__signup, .Form__buttons_submit, .ChatWindow__compose__button, .NavBar__list__logout {
     border-radius: 5px;
     background-color: #6a42ed;
     border: none;
@@ -40,7 +40,34 @@
     width: 100%;
 }
 
-.Form__buttons__login:hover, .Form__buttons__signup:hover {
+.Form__buttons__login:hover, .Form__buttons__signup:hover, .Form__buttons_submit:hover, .NavBar__list__logout:hover {
     cursor: pointer;
     background-color: #5d3ccc;
 }
+
+
+button:disabled {
+    border-radius: 5px;
+    background-color: grey;
+    border: none;
+    color: white;
+    height: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 5px;
+    padding: 0 10px;
+    width: 100%;
+  }
+  
+  button:disabled:hover {
+    border-radius: 5px;
+    background-color: grey;
+    border: none;
+    color: white;
+    height: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 5px;
+    padding: 0 10px;
+    width: 100%;
+  }

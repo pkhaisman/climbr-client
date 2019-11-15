@@ -1,6 +1,5 @@
 export default {
     API_ENDPOINT: 'http://localhost:8000/api',
-    // QUESTION should i be able to access this in dev mode? is having 'climbr-token-key' a security issue
+    // API_ENDPOINT: 'https://fierce-harbor-75048.herokuapp.com/api',
     TOKEN_KEY: process.env.REACT_APP_TOKEN_KEY || 'climbr-token-key'
-    // API_TOKEN: process.env.REACT_APP_API_TOKEN,
 }

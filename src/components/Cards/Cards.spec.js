@@ -14,6 +14,6 @@ describe.only('<Cards />', () => {
     }
     
     it(`should render without crashing`, () => {
-        shallow(<Cards />, { context });
+        shallow(<Cards />, { context })
     })
 })

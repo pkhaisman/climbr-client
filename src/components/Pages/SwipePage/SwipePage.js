@@ -14,7 +14,10 @@ class SwipePage extends React.Component {
 
         if (!this.context.currentUser.name) {
             return (
-                <div>You must fill out your profile before you can swipe!</div>
+                <div>
+                    <NavBar updateUserLoggedIn={this.props.updateUserLoggedIn}/>
+                    <div className='SwipePage__error'>You must fill out your profile before you can swipe!</div>
+                </div>
             )
         }
 

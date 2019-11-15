@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ClimbrContext from '../../contexts/ClimbrContext'
+import './Matches.css'
 
 import './Matches.css'
 
@@ -24,7 +25,7 @@ class Matches extends React.Component {
 
                 return (
                     <div className='Match' key={u.id}>
-                        <Link to={`/chat?otherUserId=${u.userMatchedId}`}>{matchName}</Link>
+                        <Link className='Match__link' to={`/chat?otherUserId=${u.userMatchedId}`}>{matchName}</Link>
                     </div>
                 )
             })

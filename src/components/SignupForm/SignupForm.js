@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { default as Chatkit } from '@pusher/chatkit-server'
+import ValidationError from '../ValidationError/ValidationError'
 import AuthApiService from '../../services/auth-api-service'
 import '../App/App.css'
 
@@ -16,12 +17,47 @@ class SignUpForm extends React.Component {
         this.state = {
             username: '',
             password: '',
+            formValid: false,
+            displayMessage: false,
+            validationMessages: {
+                username: '',
+                password: '',
+            }
         }
     }
 
-    hanldeUpdateUsername = (username) => { this.setState({ username })}
+    hanldeUpdateUsername = (username) => { this.setState({ username }, () => this.validateForm()) }
 
-    handleUpdatePassword = (password) => { this.setState({ password })}
+    handleUpdatePassword = (password) => { this.setState({ password }, () => this.validateForm()) }
+
+    validateForm = () => {
+        this.setState({
+            displayMessage: false
+        })
+        this.state.username && this.state.password 
+            ? this.setState({ formValid: true })
+            : this.setState({ formValid: false }) 
+    }
+
+    renderError = (error) => {
+        // if error includes username then set username error message
+        if (error.includes('Username')) {
+            this.setState({
+                validationMessages: {
+                    username: error
+                },
+                displayMessage: true,
+            })
+        // else if error includes password then set the password error message
+        } else if (error.includes('Password')) {
+            this.setState({
+                validationMessages: {
+                    password: error
+                },
+                displayMessage: true,
+            })
+        }
+    }
 
     onRegistrationSuccess = (user) => {
         // create user in chatkit
@@ -40,20 +76,30 @@ class SignUpForm extends React.Component {
         e.preventDefault()
         const { username, password } = e.target
 
-        this.setState({
-            username: '',
-            password: ''
-        })
-
+        
         AuthApiService.postUser({
             username: username.value,
             password: password.value,
         })
-            .then((res) => {
-                this.onRegistrationSuccess(res)
+        .then((res) => {
+            // if there are no error messages then redirect
+            if (!this.state.validationMessages.username && !this.state.validationMessages.password) {
+                    this.setState({
+                        username: '',
+                        password: ''
+                    })
+                    this.onRegistrationSuccess(res)
+                }
             })
-            .catch(() => {
-                console.log('error')
+            .catch((res) => {
+                res.error 
+                    ? this.renderError(res.error)
+                    : this.setState({
+                        validationMessages: {
+                            username: '',
+                            password: ''
+                        }
+                    })
             })
     }
 
@@ -65,14 +111,16 @@ class SignUpForm extends React.Component {
                     <div>
                         <label className='Form__user-inputs__label' htmlFor='username'>Username</label>
                         <input className='Form__user-inputs__input' type='text' name='username' id='username' onChange={(e) => this.hanldeUpdateUsername(e.target.value)} />
+                        <ValidationError hasError={this.state.displayMessage} message={this.state.validationMessages.username} />
                     </div>
                     <div>
                         <label className='Form__user-inputs__label' htmlFor='password'>Password</label>
                         <input className='Form__user-inputs__input' type='password' name='password' id='password' onChange={(e) => this.handleUpdatePassword(e.target.value)} />
+                        <ValidationError hasError={this.state.displayMessage} message={this.state.validationMessages.password} />
                     </div>
                 </div>
                 <div className='Form__buttons'>
-                    <button className='Form__buttons__signup' type='submit'>Sign Up</button>
+                    <button className='Form__buttons__signup' type='submit' disabled={!this.state.formValid}>Sign Up</button>
                 </div>
             </form>
         )

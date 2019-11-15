@@ -40,8 +40,8 @@ class EndCard extends React.Component {
     render() {
         return(
             <div className='EndCard'>
-                <p>You swiped through all the cards! Click to refresh the stack!</p>
-                <button onClick={() => this.refreshUsersToSwipe()}>Refresh</button>
+                <p className='EndCard__text'>You swiped through all the cards! Click to refresh the stack!</p>
+                <button className='EndCard__btn' onClick={() => this.refreshUsersToSwipe()}>Refresh</button>
             </div>
         );
     }
@@ -67,18 +67,37 @@ class Cards extends React.Component {
     }
 
     renderCards = () => {
+        const cardStyle = {
+            overflow: 'auto',
+            color: 'red',
+            display: 'flex',
+            flexDirection: 'column',
+            transform: 'translateY(-35px)',
+            color: 'black',
+            boxShadow: '0 2px 10px 0 rgba(117,117,117,0.77)'
+        }
+
         return this.context.usersToSwipe
             .map(u => {
                 const user = this.context.users.find(user => user.id === u.userToSwipeId)
                 return (
                     <Card
+                        style={cardStyle}
                         key={u.id}
                         data={u}
                         onSwipeLeft={(u) => this.onSwipeLeft(u.userToSwipeId)}
                         onSwipeRight={(u) => this.onSwipeRight(u.userToSwipeId)}>
-                            <p>{user.name}</p>
-                            <p>{user.bio}</p>
-                            <img src={user.image} alt='Profile pic' height='300px' width='auto' />
+                            <img className='Card__user-img' src={user.image} alt='Profile pic' />
+                            <p className='Card__name'>{user.name}</p>
+                            <hr style={{
+                                      border: 0,
+                                      clear: 'both',
+                                      display: 'block',
+                                      width: '96%',              
+                                      backgroundColor: '#e8e8e8',
+                                      height: '1px',
+                                }} /> 
+                            <p className='Card__bio'>{user.bio}</p>
                     </Card>
                 )
             })

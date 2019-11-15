@@ -18,12 +18,12 @@
     display: inline-block;
     width: 90vw;
     max-width: 400px;
-    /* height: 70vh; */
     background: #fff;
     border: 1px solid #e7e7e7;
     border-radius: 8px;
     overflow: hidden;
     position: absolute;
+    box-shadow: 0 2px 10px 0 rgba(117,117,117,0.77)
 }
 
 .Profile__Form__user-inputs {
@@ -32,12 +32,15 @@
 }
 
 .Profile__Form__user-input__image {
-    height: 400px;
+    align-self: center;
+    width: 150px;
+    margin-top: 10px;
 }
 
 .Profile__Form__user-inputs__name {
     border: none;
     font-size: 2rem;
+    font-weight: 600;
     margin: 20px 10px;
 }
 
@@ -55,7 +58,19 @@
 
 .Profile__Form__user-inputs__bio {
     margin: 20px 10px;
-    height: 75px;
+    height: 100px;
+    font-size: 1rem;
+    border: none;
+    color: #757575;
+    resize: none;
+}
+
+.Profile__Form__user-inputs__bio:hover {
+    cursor: pointer;
+}
+
+.Profile__Form__user-inputs__bio:focus {
+    cursor: text;
 }
 
 .Profile__Form__button-container {
@@ -65,4 +80,33 @@
 
 .Profile__Form__submit-button {
     margin: 10px 0;
+}
+
+.update-text {
+    position: absolute;
+    left: 50%;
+    margin-left: -30px;
+    color: green;
+    top: 10px
+}
+
+.Profile__Form__button-submit {
+    width: auto;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+}
+
+.Profile__Form_user-image {
+    position: relative;
+    left: 50%;
+    margin-left: -200px;
+    height : 400px;
+    width: 405px;
+}
+
+.Profile__Form__user-input__image__container {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
