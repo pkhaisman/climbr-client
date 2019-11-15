@@ -8,6 +8,7 @@ https://climbr-app.pkhaisman.now.sh/
 
 ## Demo the App
 
+* PLEASE NOTE: If you swipe right on all of the users you will have no users to swipe on. For testing purposes make sure that you do NOT swipe right on everyone!
 * Demo Username: mike@gmail.com
 * Demo Password: mpass
 
