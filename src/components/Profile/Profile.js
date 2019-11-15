@@ -1,5 +1,6 @@
 import React from 'react'
 import Modal from 'react-modal'
+import PropTypes from 'prop-types'
 import config from '../../config'
 import ClimbrContext from '../../contexts/ClimbrContext'
 import ApiService from '../../services/api-service'
@@ -164,6 +165,11 @@ class Profile extends React.Component {
             </div>
         )
     }
+}
+
+// needed for component smoke test to pass
+Profile.contextTypes = {
+    currentUser: PropTypes.object,
 }
 
 export default Profile
