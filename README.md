@@ -13,10 +13,6 @@ https://climbr-app.pkhaisman.now.sh/
 
 ## Screenshots
 
-### Landing Page - Desktop
-
-![Landing Page: Mobile view](https://raw.githubusercontent.com/pkhaisman/climbr-client/master/src/photos/profile-page.png)
-
 ### Profile Page - Desktop
 
 ![Profile Page: Mobile view](https://raw.githubusercontent.com/pkhaisman/climbr-client/master/src/photos/profile-page.png)
