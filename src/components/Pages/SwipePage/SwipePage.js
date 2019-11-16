@@ -12,7 +12,7 @@ class SwipePage extends React.Component {
             return null
         }
 
-        if (!this.context.currentUser.name) {
+        if (!this.context.currentUser.name || !this.context.currentUser.bio || !this.context.currentUser.image) {
             return (
                 <div>
                     <NavBar updateUserLoggedIn={this.props.updateUserLoggedIn}/>
