@@ -26,7 +26,18 @@ class EndCard extends React.Component {
             }
         })
 
-        const idsUsersToSwipe = idsUsers.filter(id => !idsLikedUsers.includes(id))
+        const idsIncompleteUsers = []
+        
+        this.context.users.forEach(user => {
+            if (!user.bio || !user.name || !user.image) {
+                idsIncompleteUsers.push(user.id)
+            }
+        })
+
+        // filter cards to swipe based if profile incomplete or user already liked
+        const idsUsersToSwipe = idsUsers
+            .filter(id => !idsIncompleteUsers.includes(id))
+            .filter(id => !idsLikedUsers.includes(id))
 
         idsUsersToSwipe.forEach(id => {
             ApiService.addUserToSwipe(this.context.currentUser.id, id)

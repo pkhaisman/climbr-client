@@ -31,7 +31,7 @@ class PrivateRoutes extends React.Component {
             ApiService.getUsersMatched(userId)
         ])
             .then(([ users, usersToSwipe, usersLiked, usersMatched ]) => {
-                let currentUser, filteredUsers = [], usersLikedArr = []
+                let currentUser, filteredUsers = [], usersLikedArr = [], usersIncompleteArr = []
                 
                 // set currentUser and filter currentUser out of users
                 users.forEach(user => {
@@ -49,15 +49,22 @@ class PrivateRoutes extends React.Component {
                     }
                 })
 
-                // filter usersToSwipe by usersLiked
-                const filteredUsersToSwipe = usersToSwipe.filter(userToSwipe => {
-                    return !usersLikedArr.includes(userToSwipe.userToSwipeId)
+                // build array of ofs of incomplete users
+                users.forEach(user => {
+                    if (!user.name || !user.bio || !user.image) {
+                        usersIncompleteArr.push(user.id)
+                    }
                 })
+
+                // filter usersToSwipe by usersLiked
+                const filteredUsersToSwipe = usersToSwipe
+                    .filter(userToSwipe => !usersLikedArr.includes(userToSwipe.userToSwipeId))
+                    .filter(userToSwipe => !usersIncompleteArr.includes(userToSwipe.userToSwipeId))
                 
                 // if usersToSwipe doesnt exist then make post requests
                 if (!filteredUsersToSwipe.length) {
                     filteredUsers.forEach(user => {
-                        if (user.name && !usersLikedArr.includes(user.id)) {
+                        if (user.name && user.bio && user.image && !usersLikedArr.includes(user.id)) {
                             ApiService.addUserToSwipe(userId, user.id)
                                 .then((userToSwipe) => {
                                     this.addUserToSwipe(userToSwipe)
