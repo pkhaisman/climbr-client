@@ -6,7 +6,7 @@ class Content extends React.Component {
         const contentData = [
             {
                 title: 'To demo the app login with the following credentials',
-                content: 'Username: `demo@gmail.com`, Password: `mpass`',
+                content: 'Username: `ashley@gmail.com`, Password: `11AAaa!!`',
             },
             {
                 title: '1) Fill out your profile!',
