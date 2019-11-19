@@ -98,16 +98,8 @@ class Cards extends React.Component {
                         data={u}
                         onSwipeLeft={(u) => this.onSwipeLeft(u.userToSwipeId)}
                         onSwipeRight={(u) => this.onSwipeRight(u.userToSwipeId)}>
-                            <img className='Card__user-img' src={user.image} alt='Profile pic' />
+                            <img draggable='false' className='Card__user-img' src={user.image} alt='Profile pic' />
                             <p className='Card__name'>{user.name}</p>
-                            <hr style={{
-                                      border: 0,
-                                      clear: 'both',
-                                      display: 'block',
-                                      width: '96%',              
-                                      backgroundColor: '#e8e8e8',
-                                      height: '1px',
-                                }} /> 
                             <p className='Card__bio'>{user.bio}</p>
                     </Card>
                 )
