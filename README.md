@@ -6,6 +6,10 @@ Connect with climbers in your area!
 
 https://climbr-app.pkhaisman.now.sh/
 
+## API
+
+https://github.com/pkhaisman/climbr-api
+
 ## Demo the App
 
 * PLEASE NOTE: If you swipe right on all of the users you will have no users to swipe on. For testing purposes make sure that you do NOT swipe right on everyone!
