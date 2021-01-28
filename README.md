@@ -2,6 +2,10 @@
 
 Connect with climbers in your area!
 
+## NOTE
+
+API leveraged for chat feature has changed. Therefore, the chat feature is currently not unoperational. Code that implements the feature remains for sample code.
+
 ## Live Version
 
 https://climbr-app.pkhaisman.now.sh/
