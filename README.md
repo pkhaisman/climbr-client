@@ -4,7 +4,7 @@ Connect with climbers in your area!
 
 ## NOTE
 
-API leveraged for chat feature has changed. Therefore, the chat feature is currently not unoperational. Code that implements the feature remains for sample code.
+API leveraged for chat feature has changed. Therefore, the chat feature is not functional as of 1/28/21. Code that implements the feature remains.
 
 ## Live Version
 
